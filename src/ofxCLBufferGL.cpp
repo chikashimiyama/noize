@@ -7,10 +7,10 @@
 
 #include "ofxCLBufferGL.h"
 
-ofxCLBufferGL::ofxCLBufferGL(const cl::Context &clContext, unsigned int  size, cl_mem_flags mode){
+ofxCLBufferGL::ofxCLBufferGL(const cl::Context &clContext, std::vector<ofVec3f> defaultVertices, cl_mem_flags mode){
     cl_int err;
-    vertexBuffer.resize(size); // memory
-    vbo.setVertexData(&vertexBuffer.front(), size, GL_DYNAMIC_DRAW); // OpenGL VBO
+    vertexBuffer = defaultVertices;
+    vbo.setVertexData(&vertexBuffer.front(), vertexBuffer.size(), GL_DYNAMIC_DRAW); // OpenGL VBO
     clBufferGL = cl::BufferGL(clContext, mode, vbo.getVertId(), &err); // link vbo and openCL
     
     if(err != CL_SUCCESS){
@@ -18,7 +18,7 @@ ofxCLBufferGL::ofxCLBufferGL(const cl::Context &clContext, unsigned int  size, c
     }
 }
 
-const ofVbo &ofxCLBufferGL::getVbo(){
+ofVbo &ofxCLBufferGL::getVbo(){
     return vbo;
 }
 

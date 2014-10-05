@@ -118,29 +118,59 @@ void ofxOpenCL::postDeviceProfile(const cl::Device &device) const{
     }
 }
 
-template <typename T>
-void ofxOpenCL::createNewBuffer(const std::string &bufferName, const std::vector<T> &data, cl_mem_flags mode){
-   // bufferMap[bufferName] = ofxCLBuffer<T>(clContext, data, mode);
+void ofxOpenCL::createNewBuffer(const std::string &bufferName, const void *data, unsigned int size, cl_mem_flags mode){
+    bufferMap.insert(std::pair<std::string, ofxCLBuffer>(bufferName, ofxCLBuffer(clContext, clCommandQueue, data, size, mode)));
 }
 
-void ofxOpenCL::createNewGLBuffer(const std::string &bufferName, unsigned int bufferSize, cl_mem_flags mode){
-    bufferGLMap[bufferName] = ofxCLBufferGL(clContext, bufferSize, mode);
+void ofxOpenCL::createNewBufferGL(const std::string &bufferName, std::vector<ofVec3f> defaultVertices, cl_mem_flags mode){
+    bufferGLMap.insert(std::pair<std::string, ofxCLBufferGL>(bufferName, ofxCLBufferGL(clContext, defaultVertices, mode)));
 }
 
 unsigned int  ofxOpenCL::getNumberOfBuffer(){
-    //return bufferMap.size();
+    return bufferMap.size();
 }
 
 unsigned int  ofxOpenCL::getNumberOfGLBuffer(){
     return bufferGLMap.size();
 }
 
-void ofxOpenCL::process(){
+ofVbo &ofxOpenCL::getVbo(const std::string &bufferName){
+    std::map<std::string, ofxCLBufferGL>::iterator it = bufferGLMap.find(bufferName);
+    if(it != bufferGLMap.end()){
+        return (*it).second.getVbo();
+    }else{
+        // need to be fixed
+    }
+}
+
+
+void ofxOpenCL::updateBuffer(const std::string &bufferName, const void *data, unsigned int size){
+    std::map<std::string, ofxCLBuffer>::iterator it = bufferMap.find(bufferName);
+    if(it != bufferMap.end()){
+        (*it).second.writeToCLBuffer(data, size);
+    }
+}
+
+void ofxOpenCL::process(const std::vector<std::string> &bufferList){
     
-    
-    
-    //clCommandQueue.enqueueNDRangeKernel(kernel_add, cl::NullRange, cl::NDRange(512,512), cl::NullRange);
-    //clCommandQueue.finish();
+    for(int i = 0; i < bufferList.size(); i++){
+        std::map<std::string, ofxCLBuffer>::iterator it = bufferMap.find(bufferList[i]);
+        if(it != bufferMap.end()){
+            unsigned int size = (*it).second.getSize();
+            clKernel.setArg(i, (*it).second.getCLBuffer());
+            continue;
+        }
+        
+        std::map<std::string, ofxCLBufferGL>::iterator jt = bufferGLMap.find(bufferList[i]);
+        if(jt != bufferGLMap.end()){
+            clKernel.setArg(i, (*jt).second.getCLBuffer());
+            continue;
+        }
+        
+        ofLog(OF_LOG_ERROR) << "ofxOpenCL::process\n"<< bufferList[i] << " argument not found.";
+    }
+    clCommandQueue.enqueueNDRangeKernel(clKernel, cl::NullRange, cl::NDRange(512,512), cl::NullRange);
+    clCommandQueue.finish();
 }
 
 

@@ -13,11 +13,10 @@
 
 class ofxCLBufferGL{
 public:
-    ofxCLBufferGL(){};
-    ofxCLBufferGL(const cl::Context &clContext, unsigned int  size, cl_mem_flags mode = CL_MEM_WRITE_ONLY);
-    const ofVbo &getVbo();
-
+    ofxCLBufferGL(const cl::Context &clContext, std::vector<ofVec3f> defaultVertices, cl_mem_flags mode = CL_MEM_WRITE_ONLY);
+    ofVbo &getVbo();
     const cl::BufferGL &getCLBuffer() const;
+
 protected:
     std::vector<ofVec3f> vertexBuffer;
     ofVbo vbo;

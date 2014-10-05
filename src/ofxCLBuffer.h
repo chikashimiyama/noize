@@ -14,15 +14,16 @@
 class ofxCLBuffer{
     
 public:
-    ofxCLBuffer(const cl::Context &clContext, const cl::CommandQueue &queue, void* data, unsigned int size, cl_mem_flags mode = CL_MEM_WRITE_ONLY);
-    ~ofxCLBuffer();
+    ofxCLBuffer(const cl::Context &clContext, const cl::CommandQueue &queue, const void* data, unsigned int size, cl_mem_flags mode = CL_MEM_WRITE_ONLY);
     
-    void writeToCLBuffer(void *data, unsigned int size);
+    void writeToCLBuffer(const void *data, unsigned int size);
     const cl::Buffer &getCLBuffer() const;
+    unsigned int getSize() const;
     
 protected:
     cl::Buffer clBuffer;
     const cl::CommandQueue &commandQueue;
+    const unsigned int size;
     
 };
 

@@ -4,6 +4,7 @@
 #include "cl.hpp"
 #include "const.h"
 #include "WaveController.h"
+#include "ofxOpenCL.h"
 #include "ofxOscReceiver.h"
 
 class ofApp : public ofBaseApp{
@@ -26,7 +27,7 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
     
 protected:
-    int wrap(int target, int operand);
+        int wrap(int target, int operand);
         float ampX;
         float ampY;
         float freqX;
@@ -38,14 +39,7 @@ protected:
         ofEasyCam camera;
         WaveController waveController;
         ofVbo waveVbo;
-        //ofxOpenCL clModule;
+        ofxOpenCL clModule;
 
-    
-        cl::BufferGL *clWaveBufferGL;
-        cl::Buffer *clRandomBuffer;
-        cl::Buffer *clParamBuffer;
-        cl::Buffer *clSinBuffer;
-
-    
         ofxOscReceiver oscReceiver;
 };

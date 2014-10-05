@@ -1,8 +1,8 @@
 #include "ofApp.h"
 #include <cmath>
 
-ofApp::ofApp(const std::string &clSource){
-//clModule("GeForce GT 750M",  clSource){
+ofApp::ofApp(const std::string &clSource):
+clModule("GeForce GT 750M",  clSource, "update"){
     ampX = 0;
     ampY = 0;
     freqX = 0;
@@ -13,25 +13,16 @@ ofApp::ofApp(const std::string &clSource){
         }
     }
     
-    waveVbo.setVertexData(&initVec.front(), gNumPixels, GL_DYNAMIC_DRAW );
-    waveVbo.disableColors();
-    waveVbo.disableNormals();
+
     
     for(int i = 0; i < gNumPixels; i++){
         noiseTable.push_back(ofRandom(-1.0, 1.0));
     }
     
-
-//    
-//    clCommandQueue->enqueueWriteBuffer(*clRandomBuffer, CL_TRUE, 0, sizeof(float) * gNumPixels, &noiseTable.front());
-//    
-//    clCommandQueue->enqueueWriteBuffer(*clSinBuffer, CL_TRUE, 0, sizeof(float) * gTableSize, &sinTable.front());
-//    clUpdateFunctor = new cl::KernelFunctor(*clUpdateKernel,
-//                                            *clCommandQueue,
-//                                            cl::NullRange,
-//                                            cl::NDRange(gWindowWidth, gWindowHeight),
-//                                            cl::NullRange);
-
+    clModule.createNewBuffer("randomTable", &noiseTable.front(), sizeof(float) * gNumPixels);
+    clModule.createNewBuffer("parameters", &(waveController.getParams().front()), sizeof(Parameters) * gNumGenerators);
+    clModule.createNewBufferGL("vertices", initVec); // num vertices not byte
+    
 }
 
 
@@ -79,27 +70,22 @@ void ofApp::update(){
     cl_int err;
     cl::Event event;
     
-    waveController.setAmpX(ampX);
-    waveController.setAmpY(ampY);
-    waveController.setFreqX(freqX + 2);
-    waveController.setFreqY(freqY + 2);
+    waveController.setAmpX(100);
+    waveController.setAmpY(100);
+    waveController.setFreqX(20 + 2);
+    waveController.setFreqY(20 + 2);
     waveController.setSpeedX(1);
     waveController.setSpeedY(1);
 
     const std::vector<Parameters> &params = waveController.getParams();
-//    err = clCommandQueue->enqueueWriteBuffer(*clParamBuffer,
-//                                             CL_TRUE, 0,
-//                                             sizeof(Parameters)*gNumGenerators,
-//                                             &params.front(),
-//                                             NULL, &event);
+    clModule.updateBuffer("parameters", &params.front(), sizeof(Parameters) * gNumGenerators);
     
-    if(err != CL_SUCCESS){
-        ofLog(OF_LOG_ERROR) << "ofApp::update\n cl buffer copy error";
-    }
-    event.wait();
-    
-//    (*clUpdateFunctor)( *clParamBuffer, gNumGenerators, *clRandomBuffer, *clSinBuffer, *clWaveBufferGL, &event);
-    event.wait();
+    std::vector<std::string> names;
+    names.push_back("parameters");
+    names.push_back("randomTable");
+    names.push_back("vertices");
+
+    clModule.process(names);
 }
 
 //--------------------------------------------------------------
@@ -112,10 +98,10 @@ void ofApp::draw(){
     glTranslatef(-(gWindowWidth/2), 0, 0);
     glRotatef(76, 1, 0 ,0);
     ofSetColor(ofColor::white);
-    waveVbo.draw(GL_POINTS, 0, gNumPixels);
-    
+    clModule.getVbo("vertices").draw(GL_POINTS, 0, gNumPixels );
     ofPopMatrix();
     camera.end();
+    
     
     ofDrawBitmapString("FPS: " + ofToString(ofGetFrameRate()), 5, 15);
 }

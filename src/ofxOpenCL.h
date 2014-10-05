@@ -21,18 +21,18 @@ public:
     ofxOpenCL(const std::string &deviceName, const std::string &clSource, const std::string &kernelName);
     ~ofxOpenCL();
     
-    template<typename T>
-    void createNewBuffer(const std::string &bufferName, const std::vector<T> &data, cl_mem_flags mode = CL_MEM_READ_WRITE);
-    void createNewGLBuffer(const std::string &bufferName, unsigned int  bufferSize, cl_mem_flags mode = CL_MEM_READ_WRITE) ;
+    void createNewBuffer(const std::string &bufferName, const void *data, unsigned int size, cl_mem_flags mode = CL_MEM_READ_WRITE);
+    void createNewBufferGL(const std::string &bufferName, std::vector<ofVec3f> defaultVertices, cl_mem_flags mode = CL_MEM_READ_WRITE) ;
     
     unsigned int  getNumberOfBuffer();
     unsigned int  getNumberOfGLBuffer();
-    
-    void process();
+    ofVbo &getVbo(const std::string &bufferName);
+
+    void updateBuffer(const std::string &bufferName, const void *data, unsigned int size);
+    void process(const std::vector<std::string> &bufferList);
     
 protected:
     void postDeviceProfile(const cl::Device &device) const;
-    bool updateBuffer(const std::string &bufferName, unsigned int  size, void* dataPtr);
 
     cl::Program clProgram;
     cl::Context clContext;
@@ -40,7 +40,8 @@ protected:
     cl::CommandQueue clCommandQueue;
     cl::Kernel clKernel;
     std::vector<cl::Device> devVector;
-    std::map<std::string, ofxCLBuffer> bufferCLMap;
+    
+    std::map<std::string, ofxCLBuffer> bufferMap;
     std::map<std::string, ofxCLBufferGL> bufferGLMap;
 
 };
