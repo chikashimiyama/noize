@@ -172,8 +172,3 @@ void ofxOpenCL::process(const std::vector<std::string> &bufferList){
     clCommandQueue.enqueueNDRangeKernel(clKernel, cl::NullRange, cl::NDRange(512,512), cl::NullRange);
     clCommandQueue.finish();
 }
-
-
-
-
-

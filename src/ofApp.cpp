@@ -13,8 +13,6 @@ clModule("GeForce GT 750M",  clSource, "update"){
         }
     }
     
-
-    
     for(int i = 0; i < gNumPixels; i++){
         noiseTable.push_back(ofRandom(-1.0, 1.0));
     }
@@ -72,8 +70,8 @@ void ofApp::update(){
     
     waveController.setAmpX(100);
     waveController.setAmpY(100);
-    waveController.setFreqX(20 + 2);
-    waveController.setFreqY(20 + 2);
+    waveController.setFreqX(5 );
+    waveController.setFreqY(5 );
     waveController.setSpeedX(1);
     waveController.setSpeedY(1);
 
@@ -96,12 +94,10 @@ void ofApp::draw(){
     ofPushMatrix();
     glLineWidth(0.01);
     glTranslatef(-(gWindowWidth/2), 0, 0);
-    glRotatef(76, 1, 0 ,0);
     ofSetColor(ofColor::white);
     clModule.getVbo("vertices").draw(GL_POINTS, 0, gNumPixels );
     ofPopMatrix();
     camera.end();
-    
     
     ofDrawBitmapString("FPS: " + ofToString(ofGetFrameRate()), 5, 15);
 }
