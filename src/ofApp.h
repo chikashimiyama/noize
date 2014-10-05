@@ -5,7 +5,6 @@
 #include "const.h"
 #include "WaveController.h"
 #include "ofxOscReceiver.h"
-#include "CMOpenCL.h"
 
 class ofApp : public ofBaseApp{
     
@@ -39,7 +38,7 @@ protected:
         ofEasyCam camera;
         WaveController waveController;
         ofVbo waveVbo;
-        CMOpenCL clModule;
+        //ofxOpenCL clModule;
 
     
         cl::BufferGL *clWaveBufferGL;

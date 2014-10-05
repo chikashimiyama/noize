@@ -15,10 +15,12 @@
 		3A47706C1DF9A0D4045568C0 /* ofxGuiGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D015FA91E7717ECC9591593E /* ofxGuiGroup.cpp */; };
 		40F8E3F7627F83C74FD9086A /* ofxOscBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 673AFCBC7323D2A93120A7A2 /* ofxOscBundle.cpp */; };
 		413A3F52C6AC90B4F28A6A1C /* ofxToggle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 448869D12B9D05298EF975CB /* ofxToggle.cpp */; };
-		62206D4D19E08582001964C5 /* CMOpenCL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62206D4B19E08582001964C5 /* CMOpenCL.cpp */; };
 		6226D50319DDFCB500A7B536 /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6226D50219DDFCB500A7B536 /* OpenCL.framework */; };
 		6226D50619DE02B400A7B536 /* perlin.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6226D50519DE02B400A7B536 /* perlin.cl */; };
-		6297A70019E05BBF0086EC10 /* WaveController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6297A6FD19E057BD0086EC10 /* WaveController.cpp */; };
+		62DA5ACE19E185E500D428BC /* WaveController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62DA5ACC19E185E500D428BC /* WaveController.cpp */; };
+		62DA5AD119E186DE00D428BC /* ofxCLBufferGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62DA5ACF19E186DE00D428BC /* ofxCLBufferGL.cpp */; };
+		62DA5AD519E1880700D428BC /* ofxOpenCL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62DA5AD419E1880700D428BC /* ofxOpenCL.cpp */; };
+		62DA5AD819E1888100D428BC /* ofxCLBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62DA5AD619E1888100D428BC /* ofxCLBuffer.cpp */; };
 		6C503756DAFDCF2FEEE0EAA0 /* ofxOscMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A844876A71DBD7546201CC6 /* ofxOscMessage.cpp */; };
 		6F2D739BB67B61B0D43AB5BD /* ofxOscReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B34D2935437BD95ED6DA2A59 /* ofxOscReceiver.cpp */; };
 		866ACEB977FAB3191AD48906 /* ofxOscSender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B2BAA0F221902291E676F45 /* ofxOscSender.cpp */; };
@@ -107,14 +109,18 @@
 		48DCDAD346F8188ABA98C64A /* ofxPanel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxPanel.cpp; path = ../../addons/ofxGui/src/ofxPanel.cpp; sourceTree = SOURCE_ROOT; };
 		4F391C9D0C1047F7AF187430 /* IpEndpointName.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = IpEndpointName.h; path = ../../addons/ofxOsc/libs/oscpack/src/ip/IpEndpointName.h; sourceTree = SOURCE_ROOT; };
 		572960DD09FAC11DCF63ED27 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = tinyxmlerror.cpp; path = ../../addons/ofxXmlSettings/libs/tinyxmlerror.cpp; sourceTree = SOURCE_ROOT; };
-		62206D4B19E08582001964C5 /* CMOpenCL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CMOpenCL.cpp; sourceTree = "<group>"; };
-		62206D4C19E08582001964C5 /* CMOpenCL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMOpenCL.h; sourceTree = "<group>"; };
 		6226D50219DDFCB500A7B536 /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = System/Library/Frameworks/OpenCL.framework; sourceTree = SDKROOT; };
 		6226D50419DE009F00A7B536 /* cl.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = cl.hpp; sourceTree = "<group>"; };
 		6226D50519DE02B400A7B536 /* perlin.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; name = perlin.cl; path = bin/data/perlin.cl; sourceTree = SOURCE_ROOT; };
 		6226D50719DE08F500A7B536 /* const.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = const.h; sourceTree = "<group>"; };
-		6297A6FD19E057BD0086EC10 /* WaveController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WaveController.cpp; path = ../WaveController.cpp; sourceTree = "<group>"; };
-		6297A6FE19E057BD0086EC10 /* WaveController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaveController.h; path = ../WaveController.h; sourceTree = "<group>"; };
+		62DA5ACC19E185E500D428BC /* WaveController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WaveController.cpp; sourceTree = "<group>"; };
+		62DA5ACD19E185E500D428BC /* WaveController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveController.h; sourceTree = "<group>"; };
+		62DA5ACF19E186DE00D428BC /* ofxCLBufferGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxCLBufferGL.cpp; sourceTree = "<group>"; };
+		62DA5AD019E186DE00D428BC /* ofxCLBufferGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxCLBufferGL.h; sourceTree = "<group>"; };
+		62DA5AD319E1880100D428BC /* ofxOpenCL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxOpenCL.h; sourceTree = "<group>"; };
+		62DA5AD419E1880700D428BC /* ofxOpenCL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxOpenCL.cpp; sourceTree = "<group>"; };
+		62DA5AD619E1888100D428BC /* ofxCLBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxCLBuffer.cpp; sourceTree = "<group>"; };
+		62DA5AD719E1888100D428BC /* ofxCLBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxCLBuffer.h; sourceTree = "<group>"; };
 		673AFCBC7323D2A93120A7A2 /* ofxOscBundle.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxOscBundle.cpp; path = ../../addons/ofxOsc/src/ofxOscBundle.cpp; sourceTree = SOURCE_ROOT; };
 		67DC64ADF8E00E1888BFF187 /* tinyxml.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = tinyxml.h; path = ../../addons/ofxXmlSettings/libs/tinyxml.h; sourceTree = SOURCE_ROOT; };
 		6EE05DD94DAD5D94142391A8 /* IpEndpointName.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = IpEndpointName.cpp; path = ../../addons/ofxOsc/libs/oscpack/src/ip/IpEndpointName.cpp; sourceTree = SOURCE_ROOT; };
@@ -428,10 +434,14 @@
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
-				6297A6FE19E057BD0086EC10 /* WaveController.h */,
-				6297A6FD19E057BD0086EC10 /* WaveController.cpp */,
-				62206D4C19E08582001964C5 /* CMOpenCL.h */,
-				62206D4B19E08582001964C5 /* CMOpenCL.cpp */,
+				62DA5ACC19E185E500D428BC /* WaveController.cpp */,
+				62DA5ACD19E185E500D428BC /* WaveController.h */,
+				62DA5AD019E186DE00D428BC /* ofxCLBufferGL.h */,
+				62DA5ACF19E186DE00D428BC /* ofxCLBufferGL.cpp */,
+				62DA5AD719E1888100D428BC /* ofxCLBuffer.h */,
+				62DA5AD619E1888100D428BC /* ofxCLBuffer.cpp */,
+				62DA5AD319E1880100D428BC /* ofxOpenCL.h */,
+				62DA5AD419E1880700D428BC /* ofxOpenCL.cpp */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -564,16 +574,16 @@
 				3A47706C1DF9A0D4045568C0 /* ofxGuiGroup.cpp in Sources */,
 				B38AE0704C26620B0B1F72E4 /* ofxLabel.cpp in Sources */,
 				0E459598E225E56585AC1CD9 /* ofxPanel.cpp in Sources */,
-				62206D4D19E08582001964C5 /* CMOpenCL.cpp in Sources */,
-				6297A70019E05BBF0086EC10 /* WaveController.cpp in Sources */,
 				9F74DFA8C0F57500C92936C8 /* ofxSlider.cpp in Sources */,
 				A3C6983F8768ECD6DBA89E0F /* ofxSliderGroup.cpp in Sources */,
 				413A3F52C6AC90B4F28A6A1C /* ofxToggle.cpp in Sources */,
 				40F8E3F7627F83C74FD9086A /* ofxOscBundle.cpp in Sources */,
+				62DA5AD519E1880700D428BC /* ofxOpenCL.cpp in Sources */,
 				6C503756DAFDCF2FEEE0EAA0 /* ofxOscMessage.cpp in Sources */,
 				DBB73811B127DAE7DE28C895 /* ofxOscParameterSync.cpp in Sources */,
 				6F2D739BB67B61B0D43AB5BD /* ofxOscReceiver.cpp in Sources */,
 				866ACEB977FAB3191AD48906 /* ofxOscSender.cpp in Sources */,
+				62DA5AD119E186DE00D428BC /* ofxCLBufferGL.cpp in Sources */,
 				E717C5A73BE4076EDBC728DC /* IpEndpointName.cpp in Sources */,
 				F0509CA2E805D1D5F70A87D0 /* NetworkingUtils.cpp in Sources */,
 				C9651B24B869083F299EFA4D /* UdpSocket.cpp in Sources */,
@@ -582,6 +592,8 @@
 				A857235EB7F8624F0C02D157 /* OscOutboundPacketStream.cpp in Sources */,
 				9753D2F373BDF97B89D59B33 /* OscPrintReceivedElements.cpp in Sources */,
 				F95B04FD042E7407B70EE321 /* OscReceivedElements.cpp in Sources */,
+				62DA5ACE19E185E500D428BC /* WaveController.cpp in Sources */,
+				62DA5AD819E1888100D428BC /* ofxCLBuffer.cpp in Sources */,
 				014058944CFE6AE1A2171D12 /* OscTypes.cpp in Sources */,
 				0C626D3D484EA5FB87A6AD23 /* ofxXmlSettings.cpp in Sources */,
 				28DC652211D4AF8CC023D568 /* tinyxml.cpp in Sources */,

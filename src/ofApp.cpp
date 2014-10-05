@@ -1,8 +1,8 @@
 #include "ofApp.h"
 #include <cmath>
 
-ofApp::ofApp(const std::string &clSource):
-clModule("GeForce GT 750M",  clSource){
+ofApp::ofApp(const std::string &clSource){
+//clModule("GeForce GT 750M",  clSource){
     ampX = 0;
     ampY = 0;
     freqX = 0;
