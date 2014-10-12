@@ -10,7 +10,7 @@
 class ofApp : public ofBaseApp{
     
 	public:
-        ofApp(const std::string &clSource, const std::vector<unsigned> &workItems);
+        ofApp(const std::string &clSource, const std::vector<unsigned> &workItems, const std::map<std::string , std::vector<float> > &map);
         ~ofApp();
 		void setup();
 		void update();

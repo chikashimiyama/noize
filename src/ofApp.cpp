@@ -1,8 +1,9 @@
 #include "ofApp.h"
 #include <cmath>
 
-ofApp::ofApp(const std::string &clSource, const std::vector<unsigned int> &workItems):
-clModule("GeForce GT 750M",  clSource, "update", workItems){
+ofApp::ofApp(const std::string &clSource, const std::vector<unsigned int> &workItems, const std::map<std::string, std::vector<float> > &map):
+clModule("GeForce GT 750M",  clSource, "update", workItems),
+parameterMap(map){
 
     recuresiveTex.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
     effect2DFbo.begin();
@@ -10,22 +11,6 @@ clModule("GeForce GT 750M",  clSource, "update", workItems){
     effect2DFbo.end();
     
     
-    std:;vector<float> dummy;
-    dummy.assign(2, 1);
-    parameterMap["/amp"] = dummy;
-    parameterMap["/freq"] = dummy;
-    parameterMap["/speed"] = dummy;
-    parameterMap["/scale"] = dummy;
-    parameterMap["/modFreq"] = dummy;
-    parameterMap["/modAmp"] = dummy;
-    parameterMap["/rotate"] = dummy;
-    parameterMap["/blur"] = dummy;
-    parameterMap["/blurBrightness"] = dummy;
-    dummy[0] = 0.0;
-    parameterMap["/planeAmp"] = dummy;
-    parameterMap["/sphereAmp"] = dummy;
-    parameterMap["/tubeAmp"] = dummy;
-    parameterMap["/ringAmp"] = dummy;
     
     parameterVector.resize(gNumGenerators);
     

@@ -17,6 +17,7 @@
 		413A3F52C6AC90B4F28A6A1C /* ofxToggle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 448869D12B9D05298EF975CB /* ofxToggle.cpp */; };
 		6226D50319DDFCB500A7B536 /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6226D50219DDFCB500A7B536 /* OpenCL.framework */; };
 		6226D50619DE02B400A7B536 /* perlin.cl in Sources */ = {isa = PBXBuildFile; fileRef = 6226D50519DE02B400A7B536 /* perlin.cl */; };
+		627A0A0519EB12CE003919BF /* ofxOscMessageListParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 627A0A0319EB12CE003919BF /* ofxOscMessageListParser.cpp */; };
 		62DA5AD119E186DE00D428BC /* ofxCLBufferGL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62DA5ACF19E186DE00D428BC /* ofxCLBufferGL.cpp */; };
 		62DA5AD519E1880700D428BC /* ofxOpenCL.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62DA5AD419E1880700D428BC /* ofxOpenCL.cpp */; };
 		62DA5AD819E1888100D428BC /* ofxCLBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62DA5AD619E1888100D428BC /* ofxCLBuffer.cpp */; };
@@ -112,6 +113,8 @@
 		6226D50419DE009F00A7B536 /* cl.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = cl.hpp; sourceTree = "<group>"; };
 		6226D50519DE02B400A7B536 /* perlin.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; name = perlin.cl; path = bin/data/perlin.cl; sourceTree = SOURCE_ROOT; };
 		6226D50719DE08F500A7B536 /* const.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = const.h; sourceTree = "<group>"; };
+		627A0A0319EB12CE003919BF /* ofxOscMessageListParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ofxOscMessageListParser.cpp; path = ../ofxOscMessageListParser.cpp; sourceTree = "<group>"; };
+		627A0A0419EB12CE003919BF /* ofxOscMessageListParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ofxOscMessageListParser.h; path = ../ofxOscMessageListParser.h; sourceTree = "<group>"; };
 		62DA5ACF19E186DE00D428BC /* ofxCLBufferGL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxCLBufferGL.cpp; sourceTree = "<group>"; };
 		62DA5AD019E186DE00D428BC /* ofxCLBufferGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxCLBufferGL.h; sourceTree = "<group>"; };
 		62DA5AD319E1880100D428BC /* ofxOpenCL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxOpenCL.h; sourceTree = "<group>"; };
@@ -429,14 +432,16 @@
 				6226D50719DE08F500A7B536 /* const.h */,
 				6226D50419DE009F00A7B536 /* cl.hpp */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
-				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
+				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
 				62DA5AD019E186DE00D428BC /* ofxCLBufferGL.h */,
 				62DA5ACF19E186DE00D428BC /* ofxCLBufferGL.cpp */,
 				62DA5AD719E1888100D428BC /* ofxCLBuffer.h */,
 				62DA5AD619E1888100D428BC /* ofxCLBuffer.cpp */,
 				62DA5AD319E1880100D428BC /* ofxOpenCL.h */,
 				62DA5AD419E1880700D428BC /* ofxOpenCL.cpp */,
+				627A0A0419EB12CE003919BF /* ofxOscMessageListParser.h */,
+				627A0A0319EB12CE003919BF /* ofxOscMessageListParser.cpp */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -588,6 +593,7 @@
 				9753D2F373BDF97B89D59B33 /* OscPrintReceivedElements.cpp in Sources */,
 				F95B04FD042E7407B70EE321 /* OscReceivedElements.cpp in Sources */,
 				62DA5AD819E1888100D428BC /* ofxCLBuffer.cpp in Sources */,
+				627A0A0519EB12CE003919BF /* ofxOscMessageListParser.cpp in Sources */,
 				014058944CFE6AE1A2171D12 /* OscTypes.cpp in Sources */,
 				0C626D3D484EA5FB87A6AD23 /* ofxXmlSettings.cpp in Sources */,
 				28DC652211D4AF8CC023D568 /* tinyxml.cpp in Sources */,
@@ -612,6 +618,8 @@
 			baseConfigurationReference = E4EB6923138AFD0F00A09F29 /* Project.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++98";
+				CLANG_CXX_LIBRARY = "libstdc++";
 				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/bin/";
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
@@ -648,7 +656,7 @@
 					"-lpthread",
 					"-mtune=native",
 				);
-				SDKROOT = macosx;
+				SDKROOT = macosx10.9;
 			};
 			name = Debug;
 		};
@@ -657,6 +665,8 @@
 			baseConfigurationReference = E4EB6923138AFD0F00A09F29 /* Project.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++98";
+				CLANG_CXX_LIBRARY = "libstdc++";
 				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/bin/";
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
@@ -664,7 +674,7 @@
 				GCC_ENABLE_SSE3_EXTENSIONS = YES;
 				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
-				GCC_OPTIMIZATION_LEVEL = fast;
+				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_UNROLL_LOOPS = YES;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = YES;
@@ -694,7 +704,7 @@
 					"-lpthread",
 					"-mtune=native",
 				);
-				SDKROOT = macosx;
+				SDKROOT = macosx10.9;
 			};
 			name = Release;
 		};
