@@ -18,7 +18,10 @@ class ofxOpenCL{
 public:
 
     // must specify device name and source code.
-    ofxOpenCL(const std::string &deviceName, const std::string &clSource, const std::string &kernelName);
+    ofxOpenCL(const std::string &deviceName,
+              const std::string &clSource,
+              const std::string &kernelName,
+              const std::vector<unsigned> &workItems);
     ~ofxOpenCL();
     
     void createNewBuffer(const std::string &bufferName, const void *data, unsigned int size, cl_mem_flags mode = CL_MEM_READ_WRITE);
@@ -34,6 +37,7 @@ public:
 protected:
     void postDeviceProfile(const cl::Device &device) const;
 
+    cl::NDRange ndRange;
     cl::Program clProgram;
     cl::Context clContext;
     
@@ -43,6 +47,7 @@ protected:
     
     std::map<std::string, ofxCLBuffer> bufferMap;
     std::map<std::string, ofxCLBufferGL> bufferGLMap;
+    
 
 };
 

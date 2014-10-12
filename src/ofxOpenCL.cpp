@@ -10,7 +10,17 @@
 #include <string>
 
 
-ofxOpenCL::ofxOpenCL(const std::string &deviceName, const std::string &clSource, const std::string &kernelName){
+ofxOpenCL::ofxOpenCL(const std::string &deviceName, const std::string &clSource, const std::string &kernelName, const std::vector<unsigned int> &workItems){
+    if(workItems.size() == 1){
+        ndRange = cl::NDRange(workItems[0]);
+    }else if(workItems.size() == 2){
+        ndRange = cl::NDRange(workItems[0], workItems[1]);
+    }else if(workItems.size() >= 3){
+        ndRange = cl::NDRange(workItems[0], workItems[1], workItems[2]);
+    }else{
+        ofLog(OF_LOG_ERROR) << "ofxOpenCL::ofxOpenCL unable to define NDRange. set to 512";
+        ndRange = cl::NDRange(512);
+    }
     
     // look for platform
     cl_int err = CL_SUCCESS;
@@ -91,7 +101,7 @@ void ofxOpenCL::postDeviceProfile(const cl::Device &device) const{
     size_t maxWorkGroupSize;
     size_t globalMemSize;
     size_t maxWorkItemDimensions;
-    size_t* maxWorkItemSizes;
+    size_t maxWorkItemSizes[3];
     
     device.getInfo(CL_DEVICE_VERSION, &deviceVersion);
     device.getInfo(CL_DEVICE_VENDOR, &deviceVendor);
@@ -101,9 +111,8 @@ void ofxOpenCL::postDeviceProfile(const cl::Device &device) const{
     device.getInfo(CL_DEVICE_MAX_WORK_GROUP_SIZE, &maxWorkGroupSize);
     device.getInfo(CL_DEVICE_GLOBAL_MEM_SIZE, &globalMemSize);
     device.getInfo(CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS, &maxWorkItemDimensions);
-    device.getInfo(CL_DEVICE_MAX_WORK_ITEM_SIZES, maxWorkItemSizes);
-    maxWorkItemSizes = new size_t[maxWorkItemDimensions];
-    
+    device.getInfo(CL_DEVICE_MAX_WORK_ITEM_SIZES, &maxWorkItemSizes);
+
     
     ofLog() << "Device Version: " << deviceVersion ;
     ofLog() << "Device Vendor: " << deviceVendor ;
@@ -169,6 +178,7 @@ void ofxOpenCL::process(const std::vector<std::string> &bufferList){
         
         ofLog(OF_LOG_ERROR) << "ofxOpenCL::process\n"<< bufferList[i] << " argument not found.";
     }
-    clCommandQueue.enqueueNDRangeKernel(clKernel, cl::NullRange, cl::NDRange(512,512), cl::NullRange);
+    
+    clCommandQueue.enqueueNDRangeKernel(clKernel, cl::NullRange, ndRange, cl::NullRange);
     clCommandQueue.finish();
 }

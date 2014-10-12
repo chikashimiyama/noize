@@ -11,6 +11,9 @@ ofxCLBufferGL::ofxCLBufferGL(const cl::Context &clContext, std::vector<ofVec3f> 
     cl_int err;
     vertexBuffer = defaultVertices;
     vbo.setVertexData(&vertexBuffer.front(), vertexBuffer.size(), GL_DYNAMIC_DRAW); // OpenGL VBO
+    vbo.disableColors();
+    vbo.disableNormals();
+    vbo.disableTexCoords();
     clBufferGL = cl::BufferGL(clContext, mode, vbo.getVertId(), &err); // link vbo and openCL
     
     if(err != CL_SUCCESS){

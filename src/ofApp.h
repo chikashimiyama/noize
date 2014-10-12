@@ -1,16 +1,16 @@
 #pragma once
 #include <memory>
+#include <map>
 #include "ofMain.h"
 #include "cl.hpp"
 #include "const.h"
-#include "WaveController.h"
 #include "ofxOpenCL.h"
 #include "ofxOscReceiver.h"
 
 class ofApp : public ofBaseApp{
     
 	public:
-        ofApp(const std::string &clSource);
+        ofApp(const std::string &clSource, const std::vector<unsigned> &workItems);
         ~ofApp();
 		void setup();
 		void update();
@@ -27,19 +27,29 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
     
 protected:
-        int wrap(int target, int operand);
-        float ampX;
-        float ampY;
-        float freqX;
-        float freqY;
-        std::vector<ofVec3f> initVec;
+        void avoidZero(float &value);
+
+        template <typename T>
+        T wrap(T target, T operand);
+        void recursiveBlur(void);
+
+        std::map<std::string, std::vector<float> > parameterMap; // osc
+    
+        std::vector<Parameters> parameterVector; // cl
+        GlobalParameters globalParameters;
+    
+        std::vector<ofVec3f> renderVec, planeVec, sphereVec, tubeVec, ringVec;
+
         std::vector<float> sinTable;
         std::vector<float> noiseTable;
+    
+        ofTexture recuresiveTex;
+        ofFbo effect2DFbo;
+        ofFbo bloom2DFbo;
 
         ofEasyCam camera;
-        WaveController waveController;
-        ofVbo waveVbo;
         ofxOpenCL clModule;
 
         ofxOscReceiver oscReceiver;
+    
 };

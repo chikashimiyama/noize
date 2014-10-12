@@ -8,8 +8,14 @@
 const int gWindowWidth = 512;
 const int gWindowHeight = 512;
 const int gNumPixels = gWindowWidth * gWindowHeight;
-const int gTableSize = 1024;
-const int gNumGenerators = 7;
+const int gNumGenerators = 5;
+
+typedef struct GlobalParameters{
+    cl_float planeAmp;
+    cl_float sphereAmp;
+    cl_float tubeAmp;
+    cl_float ringAmp;
+} GlobalParameter;
 
 typedef struct Parameters{
     cl_float freqX;
