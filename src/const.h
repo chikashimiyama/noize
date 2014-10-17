@@ -8,7 +8,7 @@
 const int gWindowWidth = 512;
 const int gWindowHeight = 512;
 const int gNumPixels = gWindowWidth * gWindowHeight;
-const int gNumGenerators = 5;
+const int gNumGenerators = 3;
 
 typedef struct GlobalParameters{
     cl_float planeAmp;

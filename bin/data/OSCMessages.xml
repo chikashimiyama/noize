@@ -1,24 +1,20 @@
 <?xml version="1.0"?>
 <messageList>
     <messageType>
-        <address>/amp</address>
-        <args>2</args>
+        <address>/freqX</address>
+        <args>5</args>
     </messageType>
     <messageType>
-        <address>/amp</address>
-        <args>2</args>
+        <address>/freqY</address>
+        <args>5</args>
     </messageType>
     <messageType>
-        <address>/amp</address>
-        <args>2</args>
+        <address>/ampX</address>
+        <args>5</args>
     </messageType>
     <messageType>
-        <address>/amp</address>
-        <args>2</args>
-    </messageType>
-    <messageType>
-        <address>/freq</address>
-        <args>2</args>
+        <address>/ampY</address>
+        <args>5</args>
     </messageType>
     <messageType>
         <address>/speed</address>
@@ -30,7 +26,7 @@
     </messageType>
     <messageType>
         <address>/rotate</address>
-        <args>1</args>
+        <args>5</args>
     </messageType>
     <messageType>
         <address>/blur</address>

@@ -10,7 +10,7 @@ parameterMap(map){
     ofClear(0);
     effect2DFbo.end();
     
-    
+    ofSetFrameRate(30);
     
     parameterVector.resize(gNumGenerators);
     
@@ -142,24 +142,24 @@ void ofApp::update(){
 
     
     for(int i = 0 ; i< gNumGenerators; i++){
-        float divider = static_cast<float>(i) + 1.0;
-        parameterVector[i].freqX = parameterMap["/freq"][0] * divider;
-        parameterVector[i].freqY = parameterMap["/freq"][1] * divider;
-
+        float layer = static_cast<float>(i) + 1.0;
         
-        parameterVector[i].ampX = parameterMap["/amp"][0] / divider;
-        parameterVector[i].ampY = parameterMap["/amp"][1] / divider;
+        parameterVector[i].freqX = parameterMap["/freqX"][i];
+        parameterVector[i].freqY = parameterMap["/freqY"][i];
+        
+        parameterVector[i].ampX = parameterMap["/ampX"][i];
+        parameterVector[i].ampY = parameterMap["/ampY"][i];
         
         avoidZero( parameterVector[i].freqX);
         avoidZero( parameterVector[i].freqY);
         float rot = parameterMap["/rotate"][0];
         
-        float rotation = rot * divider;
-        float speedX = parameterMap["/speed"][0] *  cos(rotation) - parameterMap["/speed"][1] * sin(rotation);
-        float speedY = parameterMap["/speed"][0] * sin(rotation) + parameterMap["/speed"][1] * cos(rotation);
+        float rotation = parameterMap["/rotation"][i];;
+        float speedX = parameterMap["/speedX"][i] * cos(rotation) - parameterMap["/speedX"][i] * sin(rotation);
+        float speedY = parameterMap["/speedY"][i] * sin(rotation) + parameterMap["/speedY"][i] * cos(rotation);
         
-        parameterVector[i].offsetX += speedX / (gWindowWidth / parameterVector[i].freqX) * divider;
-        parameterVector[i].offsetY += speedY / (gWindowHeight / parameterVector[i].freqY) * divider;
+        parameterVector[i].offsetX += speedX / (gWindowWidth / parameterVector[i].freqX) * layer;
+        parameterVector[i].offsetY += speedY / (gWindowHeight / parameterVector[i].freqY) * layer;
         //wrap
         parameterVector[i].offsetX = wrap(parameterVector[i].offsetX, (float)gWindowWidth);
         parameterVector[i].offsetY = wrap(parameterVector[i].offsetY, (float)gWindowHeight);
