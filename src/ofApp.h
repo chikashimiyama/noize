@@ -42,6 +42,7 @@ protected:
 
         std::vector<float> sinTable;
         std::vector<float> noiseTable;
+        float twistOffsetX, twistOffsetY;
     
         ofTexture recuresiveTex;
         ofFbo effect2DFbo;
@@ -51,5 +52,6 @@ protected:
         ofxOpenCL clModule;
 
         ofxOscReceiver oscReceiver;
-    
+        std::vector<std::string> names;
+
 };

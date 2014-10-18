@@ -3,7 +3,9 @@
 
 ofApp::ofApp(const std::string &clSource, const std::vector<unsigned int> &workItems, const std::map<std::string, std::vector<float> > &map):
 clModule("GeForce GT 750M",  clSource, "update", workItems),
-parameterMap(map){
+parameterMap(map),
+twistOffsetX(0.0),
+twistOffsetY(0.0){
 
     recuresiveTex.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
     effect2DFbo.begin();
@@ -38,16 +40,16 @@ parameterMap(map){
     
     for(int i = 0; i < gWindowWidth; i++){
         for(int j = 0; j < gWindowHeight; j++){
-            tubeVec.push_back(ofVec3f(cos( (float)i /(float)gWindowHeight * M_PI * 2 - M_PI) * halfWidth ,
-                                      sin( (float)j /(float)gWindowHeight * M_PI * 2 - M_PI) * halfHeight ,
-                                      sin( (float)i /(float)gWindowHeight * M_PI * 2 - M_PI) * cos( (float)j /(float)gWindowHeight * M_PI * 2) * gWindowWidth/2 ));
+            tubeVec.push_back(ofVec3f(cos( (float)i /(float)gWindowHeight * g2PI - M_PI) * halfWidth ,
+                                      sin( (float)j /(float)gWindowHeight * g2PI - M_PI) * halfHeight ,
+                                      sin( (float)i /(float)gWindowHeight * g2PI - M_PI) * cos( (float)j /(float)gWindowHeight * M_PI * 2) * gWindowWidth/2 ));
         }
     }
     
     for(int i = 0; i < gWindowWidth; i++){
         for(int j = 0; j < gWindowHeight; j++){
-            float theta = (float)i / (float)(gWindowWidth) * M_PI * 2;
-            float phi = (float)j / (float)(gWindowHeight) * M_PI * 2;
+            float theta = (float)i / (float)(gWindowWidth) * g2PI;
+            float phi = (float)j / (float)(gWindowHeight) * g2PI;
             float x, y, z, a;
             x = cos(theta)  * halfWidth;
             y = sin(theta) * halfHeight;
@@ -60,7 +62,6 @@ parameterMap(map){
         noiseTable.push_back(ofRandom(-1.0, 1.0));
     }
     
-    globalParameters.planeAmp = 1.0;
     
     clModule.createNewBuffer("GlobalParameters", &globalParameters, sizeof(GlobalParameters));
     clModule.createNewBuffer("Parameters", &parameterVector.front(), sizeof(Parameters) * gNumGenerators);
@@ -70,6 +71,15 @@ parameterMap(map){
     clModule.createNewBufferGL("sphere", sphereVec);
     clModule.createNewBufferGL("tube", tubeVec);
     clModule.createNewBufferGL("ring", ringVec);
+    
+    names.push_back("GlobalParameters");
+    names.push_back("Parameters");
+    names.push_back("randomTable");
+    names.push_back("render");
+    names.push_back("plane");
+    names.push_back("sphere");
+    names.push_back("tube");
+    names.push_back("ring");
 
 }
 
@@ -169,19 +179,18 @@ void ofApp::update(){
     globalParameters.sphereAmp = parameterMap["/sphereAmp"][0];
     globalParameters.tubeAmp = parameterMap["/tubeAmp"][0];
     globalParameters.ringAmp = parameterMap["/ringAmp"][0];
-
+    globalParameters.twistFreqX = parameterMap["/twistFreqX"][0];
+    globalParameters.twistFreqY = parameterMap["/twistFreqY"][0];
+    twistOffsetX += parameterMap["/twistSpeedX"][0];
+    twistOffsetY += parameterMap["/twistSpeedY"][0];
+    globalParameters.twistOffsetX =twistOffsetX;
+    globalParameters.twistOffsetY =twistOffsetY;
+    twistOffsetX = wrap(twistOffsetX, g2PI);
+    twistOffsetY = wrap(twistOffsetY, g2PI);
     clModule.updateBuffer("GlobalParameters", &globalParameters, sizeof(GlobalParameters));
     clModule.updateBuffer("Parameters", &parameterVector.front(), sizeof(Parameters) * gNumGenerators);
     
-    std::vector<std::string> names;
-    names.push_back("GlobalParameters");
-    names.push_back("Parameters");
-    names.push_back("randomTable");
-    names.push_back("render");
-    names.push_back("plane");
-    names.push_back("sphere");
-    names.push_back("tube");
-    names.push_back("ring");
+
 
     clModule.process(names);
 }

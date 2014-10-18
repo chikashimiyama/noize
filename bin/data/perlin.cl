@@ -9,6 +9,10 @@ typedef struct GlobalParameters{
     float sphereAmp;
     float tubeAmp;
     float ringAmp;
+    float twistFreqX;
+    float twistFreqY;
+    float twistOffsetX;
+    float twistOffsetY;
 } GlobalParameters;
 
 typedef struct Parameters{
@@ -87,19 +91,24 @@ __kernel void update(__global GlobalParameters* globalParameters,
     }
     int index = (y * gWindowWidth + x) * 3;
     
-    render[index] = plane[index] * globalParameters->planeAmp +
+    float px = plane[index] * globalParameters->planeAmp +
                     sphere[index] * globalParameters->sphereAmp +
                     tube[index] * globalParameters->tubeAmp +
                     ring[index] * globalParameters->ringAmp;
 
-    index++;
-    render[index] = plane[index] * globalParameters->planeAmp +
-                      sphere[index] * globalParameters->sphereAmp +
-                      tube[index] * globalParameters->tubeAmp +
-                      ring[index] * globalParameters->ringAmp;
-    index++;
-    render[index] = plane[index] * globalParameters->planeAmp +
-                      sphere[index] * globalParameters->sphereAmp +
-                      tube[index] * globalParameters->tubeAmp +
-                      ring[index] * globalParameters->ringAmp + value;
+
+    float py = plane[index+1] * globalParameters->planeAmp +
+                    sphere[index+1] * globalParameters->sphereAmp +
+                    tube[index+1] * globalParameters->tubeAmp +
+                    ring[index+1] * globalParameters->ringAmp;
+    
+    float angleX = (y * globalParameters->twistFreqX) / gWindowWidth + globalParameters->twistOffsetX;
+    float angleY = (x * globalParameters->twistFreqY) / gWindowHeight + globalParameters->twistOffsetY;
+
+    render[index] = (px * cos(angleX) - py * sin(angleX)) + (px * cos(angleY) - py * sin(angleY));
+    render[index+1] = (px * sin(angleX) + py * cos(angleX)) + (px * sin(angleY) + py * cos(angleY));
+    render[index+2] = plane[index+2] * globalParameters->planeAmp +
+                      sphere[index+2] * globalParameters->sphereAmp +
+                      tube[index+2] * globalParameters->tubeAmp +
+                      ring[index+2] * globalParameters->ringAmp + value;
 }

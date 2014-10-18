@@ -2,31 +2,35 @@
 <messageList>
     <messageType>
         <address>/freqX</address>
-        <args>5</args>
+        <args>3</args>
     </messageType>
     <messageType>
         <address>/freqY</address>
-        <args>5</args>
+        <args>3</args>
     </messageType>
     <messageType>
         <address>/ampX</address>
-        <args>5</args>
+        <args>3</args>
     </messageType>
     <messageType>
         <address>/ampY</address>
-        <args>5</args>
+        <args>3</args>
     </messageType>
     <messageType>
-        <address>/speed</address>
-        <args>2</args>
+        <address>/speedX</address>
+        <args>3</args>
+    </messageType>
+    <messageType>
+        <address>/speedY</address>
+        <args>3</args>
+    </messageType>
+    <messageType>
+        <address>/rotate</address>
+        <args>3</args>
     </messageType>
     <messageType>
         <address>/scale</address>
         <args>2</args>
-    </messageType>
-    <messageType>
-        <address>/rotate</address>
-        <args>5</args>
     </messageType>
     <messageType>
         <address>/blur</address>
@@ -50,6 +54,26 @@
     </messageType>
     <messageType>
         <address>/ringAmp</address>
+        <args>1</args>
+    </messageType>
+    <messageType>
+        <address>/ringAmp</address>
+        <args>1</args>
+    </messageType>
+    <messageType>
+        <address>/twistFreqX</address>
+        <args>1</args>
+    </messageType>
+    <messageType>
+        <address>/twistFreqY</address>
+        <args>1</args>
+    </messageType>
+    <messageType>
+        <address>/twistSpeedX</address>
+        <args>1</args>
+    </messageType>
+    <messageType>
+        <address>/twistSpeedY</address>
         <args>1</args>
     </messageType>
 </messageList>

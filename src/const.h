@@ -9,12 +9,16 @@ const int gWindowWidth = 512;
 const int gWindowHeight = 512;
 const int gNumPixels = gWindowWidth * gWindowHeight;
 const int gNumGenerators = 3;
-
+const float g2PI = 6.283185307;
 typedef struct GlobalParameters{
     cl_float planeAmp;
     cl_float sphereAmp;
     cl_float tubeAmp;
     cl_float ringAmp;
+    cl_float twistFreqX;
+    cl_float twistFreqY;
+    cl_float twistOffsetX;
+    cl_float twistOffsetY;
 } GlobalParameter;
 
 typedef struct Parameters{
