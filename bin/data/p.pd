@@ -1,0 +1,40 @@
+#N canvas 395 138 632 459 10;
+#X obj 106 125 vsl 15 100 -1000 1000 0 0 empty empty empty 0 -9 0 10
+-262144 -1 -1 3700 1;
+#X obj 145 125 vsl 15 100 -1000 1000 0 0 empty empty empty 0 -9 0 10
+-262144 -1 -1 1300 1;
+#X obj 185 126 vsl 15 100 -1000 1000 0 0 empty empty empty 0 -9 0 10
+-262144 -1 -1 9900 1;
+#X obj 106 -8 loadbang;
+#X floatatom 106 243 5 0 0 0 - - -;
+#X floatatom 145 243 5 0 0 0 - - -;
+#X floatatom 185 243 5 0 0 0 - - -;
+#X obj 106 46 list prepend range;
+#X obj 106 73 list trim;
+#X obj 106 19 pack \$2 \$3;
+#X obj 111 427 s to_osc;
+#X obj 111 331 pack 0 0 0;
+#X obj 116 288 t b f;
+#X obj 161 291 t b f;
+#X obj 111 395 list trim;
+#X obj 110 364 list prepend \$1;
+#X connect 0 0 4 0;
+#X connect 1 0 5 0;
+#X connect 2 0 6 0;
+#X connect 3 0 9 0;
+#X connect 4 0 11 0;
+#X connect 5 0 12 0;
+#X connect 6 0 13 0;
+#X connect 7 0 8 0;
+#X connect 8 0 0 0;
+#X connect 8 0 1 0;
+#X connect 8 0 2 0;
+#X connect 9 0 7 0;
+#X connect 11 0 15 0;
+#X connect 12 0 11 0;
+#X connect 12 1 11 1;
+#X connect 13 0 11 0;
+#X connect 13 1 11 2;
+#X connect 14 0 10 0;
+#X connect 15 0 14 0;
+#X coords 0 -1 1 1 120 170 1 100 100;
