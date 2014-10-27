@@ -5,8 +5,8 @@
 
 //========================================================================
 int main( ){
-	ofSetupOpenGL(1024, 768,OF_WINDOW);			// <-------- setup the GL context
-    
+    ofSetupOpenGL(1024, 768,OF_WINDOW);			// <-------- setup the GL context
+
     std::vector<unsigned int> workItems;
     workItems.push_back(gWindowWidth);
     workItems.push_back(gWindowHeight);

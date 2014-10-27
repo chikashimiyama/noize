@@ -7,10 +7,9 @@ parameterMap(map),
 twistOffsetX(0.0),
 twistOffsetY(0.0){
 
+ 
+    
     recuresiveTex.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
-    effect2DFbo.begin();
-    ofClear(0);
-    effect2DFbo.end();
     
     ofSetFrameRate(30);
     
@@ -23,6 +22,7 @@ twistOffsetY(0.0){
         for(int j = 0; j < gWindowHeight; j++){
             renderVec.push_back(ofVec3f(i - halfWidth ,j -halfHeight, 0 ));
             planeVec.push_back(ofVec3f(i - halfWidth,j - halfHeight, 0 ));
+            colorVec.push_back(ofFloatColor(1.0, 1.0, 1.0));
         }
     }
     for(int i = 0; i < gWindowWidth; i++){
@@ -66,7 +66,7 @@ twistOffsetY(0.0){
     clModule.createNewBuffer("GlobalParameters", &globalParameters, sizeof(GlobalParameters));
     clModule.createNewBuffer("Parameters", &parameterVector.front(), sizeof(Parameters) * gNumGenerators);
     clModule.createNewBuffer("randomTable", &noiseTable.front(), sizeof(float) * gNumPixels);
-    clModule.createNewBufferGL("render", renderVec);
+    clModule.createNewBufferGL("render", renderVec, colorVec);
     clModule.createNewBufferGL("plane", planeVec);
     clModule.createNewBufferGL("sphere", sphereVec);
     clModule.createNewBufferGL("tube", tubeVec);
@@ -81,6 +81,8 @@ twistOffsetY(0.0){
     names.push_back("tube");
     names.push_back("ring");
 
+    ofSoundStreamSetup(gNumOutput, gNumInput, this, gSamplingRate, ofxPd::blockSize() * ticksPerBuffer, 3);
+    puredata.setup(gNumOutput, gNumInput, gSamplingRate, ticksPerBuffer);
 }
 
 
@@ -91,8 +93,6 @@ ofApp::~ofApp(){
 
 void ofApp::setup(){
     camera.setFarClip(100000);
-    camera.setPosition(0, 0, -200);
-    camera.lookAt(ofVec3f(0,0,0));
     
     oscReceiver.setup(50000);
     
@@ -108,6 +108,7 @@ T ofApp::wrap(T target, T operand){
         target -= operand;
 	return target;
 }
+
 void ofApp::avoidZero(float &value){
 
     if(value < 0.01f &&  value > 0.0f){
@@ -117,6 +118,7 @@ void ofApp::avoidZero(float &value){
         value = -0.01f;
     }
 }
+
 //--------------------------------------------------------------
 void ofApp::update(){
     while(oscReceiver.hasWaitingMessages()){
@@ -162,9 +164,8 @@ void ofApp::update(){
         
         avoidZero( parameterVector[i].freqX);
         avoidZero( parameterVector[i].freqY);
-        float rot = parameterMap["/rotate"][0];
         
-        float rotation = parameterMap["/rotation"][i];;
+        float rotation = parameterMap["/rotate"][i];;
         float speedX = parameterMap["/speedX"][i] * cos(rotation) - parameterMap["/speedX"][i] * sin(rotation);
         float speedY = parameterMap["/speedY"][i] * sin(rotation) + parameterMap["/speedY"][i] * cos(rotation);
         
@@ -183,6 +184,7 @@ void ofApp::update(){
     globalParameters.twistFreqY = parameterMap["/twistFreqY"][0];
     twistOffsetX += parameterMap["/twistSpeedX"][0];
     twistOffsetY += parameterMap["/twistSpeedY"][0];
+    
     globalParameters.twistOffsetX =twistOffsetX;
     globalParameters.twistOffsetY =twistOffsetY;
     twistOffsetX = wrap(twistOffsetX, g2PI);
@@ -191,7 +193,6 @@ void ofApp::update(){
     clModule.updateBuffer("Parameters", &parameterVector.front(), sizeof(Parameters) * gNumGenerators);
     
 
-
     clModule.process(names);
 }
 
@@ -199,20 +200,20 @@ void ofApp::update(){
 void ofApp::draw(){
 
     ofBackground(0);
-    effect2DFbo.begin(); // begin 2D recording
-    
+    //effect2DFbo.begin(); // begin 2D recording
     recursiveBlur();
     
+    camera.setPosition(parameterMap["/camera"][0], parameterMap["/camera"][1], parameterMap["/camera"][2]);
+    camera.lookAt(ofVec3f(0,0,0));
     camera.begin();
-    ofPushMatrix();
-    glScalef(parameterMap["/scale"][0] , parameterMap["/scale"][1], 1);
+
+    glScalef(parameterMap["/scaleX"][0] , parameterMap["/scaleY"][0], 1);
     ofEnableAlphaBlending();
-    ofSetColor(ofColor::white, 120);
+    ofSetColor(ofColor::white, 255);
     clModule.getVbo("render").draw(GL_POINTS, 0, gNumPixels );
-    ofPopMatrix();
-    camera.end();
     
-    effect2DFbo.end();
+    camera.end();
+    //effect2DFbo.end();
     recuresiveTex.loadScreenData(0, 0, ofGetWidth(), ofGetHeight());
     ofDrawBitmapString("FPS: " + ofToString(ofGetFrameRate()), 5, 15);
 }
@@ -230,8 +231,8 @@ void ofApp::recursiveBlur(void){
     
     float height = ofGetHeight();
     float width = ofGetWidth();
-    float blurX = parameterMap["/blur"][0] * width / 2.0;
-    float blurY = parameterMap["/blur"][1] * height / 2.0;
+    float blurX = parameterMap["/blurX"][0] * width / 2.0;
+    float blurY = parameterMap["/blurY"][0] * height / 2.0;
 
     
     glBegin(GL_POLYGON);
@@ -252,6 +253,15 @@ void ofApp::recursiveBlur(void){
     ofDisableBlendMode();
     ofPopMatrix();
     glColor4f(1.0,1.0,1.0,1.0);
+}
+
+
+void ofApp::audioReceived(float * input, int bufferSize, int nChannels){
+    puredata.audioReceived(input, bufferSize, gNumInput);
+}
+
+void ofApp::audioRequested(float * output, int bufferSize, int nChannels){
+    puredata.audioRequested(output, bufferSize, gNumOutput);
 }
 
 //--------------------------------------------------------------

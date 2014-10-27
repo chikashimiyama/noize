@@ -127,12 +127,16 @@ void ofxOpenCL::postDeviceProfile(const cl::Device &device) const{
     }
 }
 
-void ofxOpenCL::createNewBuffer(const std::string &bufferName, const void *data, unsigned int size, cl_mem_flags mode){
-    bufferMap.insert(std::pair<std::string, ofxCLBuffer>(bufferName, ofxCLBuffer(clContext, clCommandQueue, data, size, mode)));
+void ofxOpenCL::createNewBuffer(const std::string &bufferName, const void *data, unsigned int size, cl_mem_flags flag){
+    bufferMap.insert(std::pair<std::string, ofxCLBuffer>(bufferName, ofxCLBuffer(clContext, clCommandQueue, data, size, flag)));
 }
 
-void ofxOpenCL::createNewBufferGL(const std::string &bufferName, std::vector<ofVec3f> defaultVertices, cl_mem_flags mode){
-    bufferGLMap.insert(std::pair<std::string, ofxCLBufferGL>(bufferName, ofxCLBufferGL(clContext, defaultVertices, mode)));
+void ofxOpenCL::createNewBufferGL(const std::string &bufferName, std::vector<ofVec3f> defaultVertices, cl_mem_flags flag){
+    bufferGLMap.insert(std::pair<std::string, ofxCLBufferGL>(bufferName, ofxCLBufferGL(clContext, defaultVertices, flag)));
+}
+
+void ofxOpenCL::createNewBufferGL(const std::string &bufferName, std::vector<ofVec3f> defaultVertices, std::vector<ofFloatColor> defaultColors, cl_mem_flags flag){
+    bufferGLMap.insert(std::pair<std::string, ofxCLBufferGL>(bufferName, ofxCLBufferGL(clContext, defaultVertices, defaultColors, flag)));
 }
 
 unsigned int  ofxOpenCL::getNumberOfBuffer(){
@@ -162,17 +166,25 @@ void ofxOpenCL::updateBuffer(const std::string &bufferName, const void *data, un
 
 void ofxOpenCL::process(const std::vector<std::string> &bufferList){
     
+    int index = 0;
     for(int i = 0; i < bufferList.size(); i++){
         std::map<std::string, ofxCLBuffer>::iterator it = bufferMap.find(bufferList[i]);
         if(it != bufferMap.end()){
             unsigned int size = (*it).second.getSize();
-            clKernel.setArg(i, (*it).second.getCLBuffer());
+            clKernel.setArg(index, (*it).second.getCLBuffer());
+            index++;
             continue;
         }
         
         std::map<std::string, ofxCLBufferGL>::iterator jt = bufferGLMap.find(bufferList[i]);
         if(jt != bufferGLMap.end()){
-            clKernel.setArg(i, (*jt).second.getCLBuffer());
+            ofxCLBufferGL::bufferMode bm = (*jt).second.getBufferMode();
+            clKernel.setArg(index, (*jt).second.getCLVertexBuffer());
+            index++;
+            if(bm == ofxCLBufferGL::VERTEX_COLOR){
+                clKernel.setArg(index, (*jt).second.getCLColorBuffer());
+                index++;
+            }
             continue;
         }
         

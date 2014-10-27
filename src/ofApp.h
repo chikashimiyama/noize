@@ -6,6 +6,7 @@
 #include "const.h"
 #include "ofxOpenCL.h"
 #include "ofxOscReceiver.h"
+#include "PureData.h"
 
 class ofApp : public ofBaseApp{
     
@@ -26,32 +27,38 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
+        void audioReceived(float * input, int bufferSize, int nChannels);
+        void audioRequested(float * output, int bufferSize, int nChannels);
+
+        PureData puredata;
+
 protected:
-        void avoidZero(float &value);
-
+        void avoidZero(float &value); //  with lambda
         template <typename T>
-        T wrap(T target, T operand);
+        T wrap(T target, T operand); // with lambda
+    
         void recursiveBlur(void);
-
         std::map<std::string, std::vector<float> > parameterMap; // osc
     
         std::vector<Parameters> parameterVector; // cl
         GlobalParameters globalParameters;
-    
         std::vector<ofVec3f> renderVec, planeVec, sphereVec, tubeVec, ringVec;
-
+        std::vector<ofFloatColor> colorVec;
+    
         std::vector<float> sinTable;
         std::vector<float> noiseTable;
         float twistOffsetX, twistOffsetY;
     
+
+        ofShader shader;
+        ofxOpenCL clModule;
+    
+        ofxOscReceiver oscReceiver;
+        std::vector<std::string> names;
+    
+        ofCamera camera;
         ofTexture recuresiveTex;
         ofFbo effect2DFbo;
         ofFbo bloom2DFbo;
-
-        ofEasyCam camera;
-        ofxOpenCL clModule;
-
-        ofxOscReceiver oscReceiver;
-        std::vector<std::string> names;
 
 };

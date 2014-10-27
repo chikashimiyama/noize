@@ -13,6 +13,14 @@ typedef struct GlobalParameters{
     float twistFreqY;
     float twistOffsetX;
     float twistOffsetY;
+    float cameraX;
+    float cameraY;
+    float cameraZ;
+    float dummy1;
+    float dummy2;
+    float dummy3;
+    float dummy4;
+    float dummy5;
 } GlobalParameters;
 
 typedef struct Parameters{

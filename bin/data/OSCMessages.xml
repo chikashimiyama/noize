@@ -29,12 +29,20 @@
         <args>3</args>
     </messageType>
     <messageType>
-        <address>/scale</address>
-        <args>2</args>
+        <address>/scaleX</address>
+        <args>1</args>
     </messageType>
     <messageType>
-        <address>/blur</address>
-        <args>2</args>
+        <address>/scaleY</address>
+        <args>1</args>
+    </messageType>
+    <messageType>
+        <address>/blurX</address>
+        <args>1</args>
+    </messageType>
+    <messageType>
+        <address>/blurY</address>
+        <args>1</args>
     </messageType>
     <messageType>
         <address>/blurBrightness</address>
@@ -75,5 +83,9 @@
     <messageType>
         <address>/twistSpeedY</address>
         <args>1</args>
+    </messageType>
+    <messageType>
+        <address>/camera</address>
+        <args>3</args>
     </messageType>
 </messageList>
